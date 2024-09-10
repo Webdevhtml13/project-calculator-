@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resistor Calculator</title>
+<style>
+  body {
+    background-color:blue;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    
+  }
+  input {
+    padding: 5px;
+    margin: 5px;
+  }
+  button {
+    padding: 8px 20px;
+    margin: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+   h1{
+     font-size:100px;
+   }
+   label{
+     font-size:50px;
+   }
+   input{
+     font-size:50px
+   }
+   button{
+     font-size:70px
+   }
+   div{
+     font-size:80px;
+   }
+</style>
+</head>
+<body>
+<h1>Resistor Color Code Calculator</h1>
+<div>
+  <label for="firstColor">First Color:</label><br>
+  <input type="text" id="firstColor" size "40"required ><br>
+  
+  <label for="secondColor">Second Color:</label><br>
+  <input type="text" id="secondColor" required size"40"><br>
+  
+  <label for="thirdColor">Third Color:</label><br>
+  <input type="text" id="thirdColor" required><br>
+  
+  <label for="fourthColor">Fourth Color:</label><br>
+  <input type="text" id="fourthColor" required><br>
+  
+  <button onclick="calculateResistance()">Calculate</button>
+</div>
+<div id="result"></div>
+
+<script>
+  function colortodigit(shin) {
+    const digit = {
+      'black': 0,
+      'brown': 1,
+      'red': 2,
+      'orange': 3,
+      'yellow': 4,
+      'green': 5,
+      'blue': 6,
+      'violet': 7,
+      'gray': 8,
+      'white': 9
+    };
+    return digit[shin.toLowerCase()];
+  }
+
+  function colorofmultiplier(shin) {
+    const multiplier = {
+      'black': 1,
+      'brown': 10,
+      'red': 100,
+      'orange': 1000,
+      'yellow': 10000,
+      'green': 100000,
+      'blue': 1000000,
+      'violet': 10000000,
+      'gray': 100000000,
+      'white': 1000000000
+    };
+    return multiplier[shin.toLowerCase()];
+  }
+
+  function colortotolerance(shin) {
+    const tolerance = {
+      'gold': 5,
+      'silver': 10
+    };
+    return tolerance[shin.toLowerCase()];
+  }
+
+  function resistance(first, second, third, fourth) {
+    const firstcolor = colortodigit(first);
+    const secondcolor = colortodigit(second);
+    const thirdcolor = colorofmultiplier(third);
+    const fourthcolor = colortotolerance(fourth);
+    const resistanceVal = (parseFloat(firstcolor * 10 + secondcolor)) * thirdcolor;
+    
+    if (fourthcolor !== undefined) {
+      return `Tolerance: ${resistanceVal} ohms ±${fourthcolor}%`;
+    }
+  }
+
+  function calculateResistance() {
+    const first = document.getElementById('firstColor').value;
+    const second = document.getElementById('secondColor').value;
+    const third = document.getElementById('thirdColor').value;
+    const fourth = document.getElementById('fourthColor').value;
+  
+    const total = resistance(first, second, third, fourth);
+    document.getElementById('result').innerText = total;
+  }
+</script>
+</body>
+</html>
